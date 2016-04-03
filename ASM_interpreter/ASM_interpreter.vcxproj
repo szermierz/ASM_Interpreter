@@ -146,9 +146,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ASM_Implementation.cpp" />
+    <ClCompile Include="ASM_Interpreter.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ASM_Implementation.h" />
     <ClInclude Include="ASM_Interpreter.h" />
     <ClInclude Include="Bitvariable.h" />
     <ClInclude Include="Utilities.h" />
