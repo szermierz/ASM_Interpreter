@@ -11,6 +11,8 @@ private: \
 public: \
 	virtual void Run(); \
 	virtual size_t GetOpCode() const; \
+	virtual const char* GetOpPneumonic() const \
+	{ return #pneumonic ; } \
 }
 
 namespace asmi

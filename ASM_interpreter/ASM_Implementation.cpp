@@ -15,7 +15,9 @@ using namespace asmi;
 
 /*virtual*/ void MOVF_Instruction::Run()
 {
-	GetAccumulator() = GetArgument();
+	size_t arg = GetArgument();
+
+	GetAccumulator() = GetArgument(arg);
 }
 
 /*virtual*/ size_t MOVF_Instruction::GetOpCode() const
@@ -31,7 +33,7 @@ using namespace asmi;
 
 /*virtual*/ void MOVT_Instruction::Run()
 {
-	GetArgument() = GetAccumulator();
+	SetArgument(GetArgument(), GetAccumulator());
 }
 
 /*virtual*/ size_t MOVT_Instruction::GetOpCode() const
@@ -47,7 +49,7 @@ using namespace asmi;
 
 /*virtual*/ void ADD_Instruction::Run()
 {
-	GetAccumulator() += GetArgument();
+	GetAccumulator() += GetArgument(GetArgument());
 }
 
 /*virtual*/ size_t ADD_Instruction::GetOpCode() const
@@ -63,7 +65,7 @@ using namespace asmi;
 
 /*virtual*/ void SUB_Instruction::Run()
 {
-	GetAccumulator() -= GetArgument();
+	GetAccumulator() -= GetArgument(GetArgument());
 }
 
 /*virtual*/ size_t SUB_Instruction::GetOpCode() const
@@ -79,7 +81,7 @@ using namespace asmi;
 
 /*virtual*/ void MUL_Instruction::Run()
 {
-	GetAccumulator() *= GetArgument();
+	GetAccumulator() *= GetArgument(GetArgument());
 }
 
 /*virtual*/ size_t MUL_Instruction::GetOpCode() const
@@ -115,10 +117,10 @@ using namespace asmi;
 
 /*virtual*/ void POP_Instruction::Run()
 {
-	GetAccumulator() = GetStackTop();
-
-	if(GetStackPointer())
+	if(GetStackPointer() != GetStackBottom())
 		--GetStackPointer();
+
+	GetAccumulator() = *GetStackPointer();
 }
 
 /*virtual*/ size_t POP_Instruction::GetOpCode() const
@@ -134,9 +136,10 @@ using namespace asmi;
 
 /*virtual*/ void PUSH_Instruction::Run()
 {
-	++GetStackPointer();
-
-	GetStackTop() = GetAccumulator();
+	*GetStackPointer() = GetAccumulator();
+	
+	if(GetStackPointer() != GetStackTop())
+		++GetStackPointer();
 }
 
 /*virtual*/ size_t PUSH_Instruction::GetOpCode() const
