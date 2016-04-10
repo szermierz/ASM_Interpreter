@@ -15,7 +15,7 @@ using namespace asmi;
 
 /*virtual*/ void MOVF_Instruction::Run()
 {
-	size_t arg = GetArgument();
+	size_t arg = GetNextArgument();
 
 	GetAccumulator() = GetArgument(arg);
 }
@@ -23,6 +23,11 @@ using namespace asmi;
 /*virtual*/ size_t MOVF_Instruction::GetOpCode() const
 {
 	return 0;
+}
+
+/*virtual*/ size_t MOVF_Instruction::GetInstructionSize() const
+{
+	return 2;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -33,12 +38,17 @@ using namespace asmi;
 
 /*virtual*/ void MOVT_Instruction::Run()
 {
-	SetArgument(GetArgument(), GetAccumulator());
+	SetArgument(GetNextArgument(), GetAccumulator());
 }
 
 /*virtual*/ size_t MOVT_Instruction::GetOpCode() const
 {
 	return 1;
+}
+
+/*virtual*/ size_t MOVT_Instruction::GetInstructionSize() const
+{
+	return 2;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -49,10 +59,15 @@ using namespace asmi;
 
 /*virtual*/ void ADD_Instruction::Run()
 {
-	GetAccumulator() += GetArgument(GetArgument());
+	GetAccumulator() += GetArgument(GetNextArgument());
 }
 
 /*virtual*/ size_t ADD_Instruction::GetOpCode() const
+{
+	return 2;
+}
+
+/*virtual*/ size_t ADD_Instruction::GetInstructionSize() const
 {
 	return 2;
 }
@@ -65,12 +80,17 @@ using namespace asmi;
 
 /*virtual*/ void SUB_Instruction::Run()
 {
-	GetAccumulator() -= GetArgument(GetArgument());
+	GetAccumulator() -= GetArgument(GetNextArgument());
 }
 
 /*virtual*/ size_t SUB_Instruction::GetOpCode() const
 {
 	return 3;
+}
+
+/*virtual*/ size_t SUB_Instruction::GetInstructionSize() const
+{
+	return 2;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -81,12 +101,17 @@ using namespace asmi;
 
 /*virtual*/ void MUL_Instruction::Run()
 {
-	GetAccumulator() *= GetArgument(GetArgument());
+	GetAccumulator() *= GetArgument(GetNextArgument());
 }
 
 /*virtual*/ size_t MUL_Instruction::GetOpCode() const
 {
 	return 4;
+}
+
+/*virtual*/ size_t MUL_Instruction::GetInstructionSize() const
+{
+	return 2;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -100,13 +125,18 @@ using namespace asmi;
 	if (GetAccumulator())
 		return;
 
-	GetInstructionCounter() = GetArgument();
+	GetInstructionCounter() = GetNextArgument();
 	--GetInstructionCounter();
 }
 
 /*virtual*/ size_t JZ_Instruction::GetOpCode() const
 {
 	return 5;
+}
+
+/*virtual*/ size_t JZ_Instruction::GetInstructionSize() const
+{
+	return 2;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -128,6 +158,11 @@ using namespace asmi;
 	return 6;
 }
 
+/*virtual*/ size_t POP_Instruction::GetInstructionSize() const
+{
+	return 1;
+}
+
 ////////////////////////////////////////////////////////////////////////
 //    PUSH_Instruction
 ////////////////////////////////////////////////////////////////////////
@@ -145,4 +180,9 @@ using namespace asmi;
 /*virtual*/ size_t PUSH_Instruction::GetOpCode() const
 {
 	return 7;
+}
+
+/*virtual*/ size_t PUSH_Instruction::GetInstructionSize() const
+{
+	return 1;
 }

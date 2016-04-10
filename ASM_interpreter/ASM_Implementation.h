@@ -13,6 +13,7 @@ public: \
 	virtual size_t GetOpCode() const; \
 	virtual const char* GetOpPneumonic() const \
 	{ return #pneumonic ; } \
+	virtual size_t GetInstructionSize() const; \
 }
 
 namespace asmi
